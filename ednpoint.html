@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endpoint Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background-color: #c8e6c9;
+            color: #388e3c;
+        }
+        .error {
+            background-color: #ffcdd2;
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Endpoint Checker</h1>
+    <input type="text" id="urlInput" placeholder="Enter the API URL">
+    <button onclick="checkEndpoint()">Check Endpoint</button>
+
+    <div id="statusMessage" class="status"></div>
+
+    <script>
+        function checkEndpoint() {
+            const url = document.getElementById('urlInput').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        statusMessage.textContent = `Success! Status Code: ${response.status}`;
+                        statusMessage.className = 'status success';
+                    } else {
+                        statusMessage.textContent = `Error! Status Code: ${response.status}`;
+                        statusMessage.className = 'status error';
+                    }
+                })
+                .catch(error => {
+                    statusMessage.textContent = `Failed to reach the endpoint. Error: ${error}`;
+                    statusMessage.className = 'status error';
+                })
+                .finally(() => {
+                    statusMessage.style.display = 'block';
+                });
+        }
+    </script>
+</body>
+</html>
